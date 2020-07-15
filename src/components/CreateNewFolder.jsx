@@ -1,16 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Popup, Icon } from 'semantic-ui-react';
-import { Button, Header, Image, Modal, Form } from 'semantic-ui-react'
+import { Button, Modal, Form } from 'semantic-ui-react'
 import { useForm } from "react-hook-form";
-import * as yup from "yup"
-import FolderContext from '../context/FolderContext';
-
-const CreateFolderSchema = yup.object().shape({
-    newFolder: yup.string().max(30).required()
-});
 
 const CreateNewFolder = ({ createFolder }) => {
-    // const { state, dispatch } = useContext(FolderContext);
     const [open, setOpen] = useState(false);
     const {
         register,
@@ -20,11 +13,7 @@ const CreateNewFolder = ({ createFolder }) => {
 
 
     const onSubmit = (data, e) => {
-        // console.log("Submit event", e);
-        // alert(JSON.stringify(data));
-        // const name = data.newFolder;
-        createFolder(data.newFolder);
-        // dispatch({ type: 'CREATE_FOLDER', name });
+        createFolder(data.newFolder || 'New Folder');
         handleClose();
     };
 
@@ -42,7 +31,7 @@ const CreateNewFolder = ({ createFolder }) => {
         <div className="folder-container">
             <Popup
                 trigger={
-                    <div onClick={handleOpen}>
+                    <div className="create-new-folder" onClick={handleOpen}>
                         <svg fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50px" height="50px">
                             <path fillRule="evenodd" d="M 11 2 L 11 11 L 2 11 L 2 13 L 11 13 L 11 22 L 13 22 L 13 13 L 22 13 L 22 11 L 13 11 L 13 2 Z" />
                         </svg>

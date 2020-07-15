@@ -29,3 +29,20 @@ main {
         }
     }
 }
+
+form.ui.signup,
+form.ui.signin {
+    max-width: 400px !important;
+    margin: auto;
+}
+
+div.create-new-folder {
+    height: 100px;
+    width: 100px;
+    border: 2px dashed grey;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}

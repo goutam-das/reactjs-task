@@ -15,7 +15,7 @@ const Header = () => {
     return (
         <header>
             <nav>
-                <h1><span>D</span>emo <span>A</span>pp</h1>
+                <Link to="/"><h1><span>D</span>emo <span>A</span>pp</h1></Link>
                 <div>
                     <ul>
                         {

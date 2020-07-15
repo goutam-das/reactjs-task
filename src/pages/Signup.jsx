@@ -1,18 +1,19 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Form, Button } from 'semantic-ui-react';
+import { Container, Form, Button, Divider } from 'semantic-ui-react';
+import { useForm } from "react-hook-form";
 
 const Signup = () => {
     const dispatch = useDispatch()
     const history = useHistory();
     const users = useSelector(state => state.users);
-
     console.log(users);
-    const onSignup = e => {
-        e.preventDefault();
-        const name = "Demo 3"
-        const email = "demo3@gmail.com", password = "demo3";
+    const { register, errors, handleSubmit } = useForm();
+    const onSignup = ({ name, email, password }) => {
+        // console.log({ data })
+        // const name = "Demo 3"
+        // const email = "demo3@gmail.com", password = "demo3";
         const user = users.find(u => u.email === email && u.password === password);
 
         if (user) {
@@ -30,19 +31,30 @@ const Signup = () => {
         alert('Your account has registered successfully')
         history.replace('/signin');
     }
-
+    console.log(errors)
     return (
         <Container>
-            <Form onSubmit={onSignup}>
-                <Form.Field>
-                    <label>First Name</label>
-                    <input placeholder='First Name' />
+            <Divider hidden />
+            <Form onSubmit={handleSubmit(onSignup)} className="signup">
+                <Form.Field
+                    error={errors.hasOwnProperty('name')}
+                >
+                    <label>Name</label>
+                    <input name="name" placeholder='Name' ref={register({ required: true })} />
                 </Form.Field>
-                <Form.Field>
-                    <label>Last Name</label>
-                    <input placeholder='Last Name' />
+                <Form.Field
+                    error={errors.hasOwnProperty('email')}
+                >
+                    <label>Email</label>
+                    <input name="email" placeholder='Email' ref={register({ required: true })} />
                 </Form.Field>
-                <Button type='submit' primary>Submit</Button>
+                <Form.Field
+                    error={errors.hasOwnProperty('password')}
+                >
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder='Password' ref={register({ required: true })} />
+                </Form.Field>
+                <Button type='submit' primary>Signup</Button>
             </Form>
         </Container>
     )

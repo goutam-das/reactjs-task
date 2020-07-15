@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Form, Button } from 'semantic-ui-react';
+import { Container, Form, Button, Divider } from 'semantic-ui-react';
+import { useForm } from "react-hook-form";
 import FolderContext from '../context/FolderContext';
 
 const Signin = () => {
@@ -10,9 +11,9 @@ const Signin = () => {
     const users = useSelector(state => state.users);
     const { dispatch: ctxDispatch } = useContext(FolderContext);
     console.log(users);
-    const onSignin = e => {
-        e.preventDefault();
-        const email = "demo3@gmail.com", password = "demo3";
+    const { register, errors, handleSubmit } = useForm();
+    const onSignin = ({ email, password }) => {
+        // const email = "demo3@gmail.com", password = "demo3";
         const user = users.find(u => u.email === email && u.password === password);
         if (!user) {
             alert('Error: wrong email or password!');
@@ -25,16 +26,21 @@ const Signin = () => {
     }
     return (
         <Container>
-            <Form className="sign-in" onSubmit={onSignin}>
-                <Form.Field>
-                    <label>First Name</label>
-                    <input placeholder='First Name' />
+            <Divider hidden />
+            <Form onSubmit={handleSubmit(onSignin)} className="signin">
+                <Form.Field
+                    error={errors.hasOwnProperty('email')}
+                >
+                    <label>Email</label>
+                    <input name="email" placeholder='Email' ref={register({ required: true })} />
                 </Form.Field>
-                <Form.Field>
-                    <label>Last Name</label>
-                    <input placeholder='Last Name' />
+                <Form.Field
+                    error={errors.hasOwnProperty('password')}
+                >
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder='Password' ref={register({ required: true })} />
                 </Form.Field>
-                <Button type='submit' primary>Submit</Button>
+                <Button type='submit' primary>Signin</Button>
             </Form>
         </Container>
     )

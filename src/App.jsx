@@ -1,6 +1,5 @@
 import React from 'react'
 import { Provider } from 'react-redux';
-import { hot } from 'react-hot-loader/root'
 import Routes from './Routes';
 import store from './store';
 
@@ -12,4 +11,8 @@ const App = () => {
     )
 }
 
-export default hot(App)
+if (module.hot) {
+    module.hot.accept();
+}
+
+export default App;
