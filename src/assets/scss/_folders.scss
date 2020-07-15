@@ -1,0 +1,27 @@
+div.folders-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 10px;
+}
+
+div.folder-container {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+
+    span {
+        position: absolute;
+    }
+}
+
+a.folder-container {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+
+    span {
+        position: absolute;
+    }
+}

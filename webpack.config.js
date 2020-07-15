@@ -1,9 +1,16 @@
 const isDevelopment = process.env.NODE_ENV === 'development';
-
+const webpack = require('webpack')
+const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // installed via npm
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
+    output: {
+        publicPath: '/',
+        // filename: [id][hash].js,
+        path: path.resolve(__dirname, 'dist'),
+    },
     module: {
         rules: [
             {
@@ -20,6 +27,10 @@ module.exports = {
                         loader: "html-loader"
                     }
                 ]
+            },
+            {
+                test: /\.(jpg|png|gif|jpeg|woff|woff2|eot|ttf|svg)$/,
+                loader: 'url-loader?limit=100000'
             },
             {
                 test: /\.module\.s(a|c)ss$/,
@@ -60,6 +71,8 @@ module.exports = {
         extensions: ['.js', '.jsx', '.scss']
     },
     plugins: [
+        new webpack.ProgressPlugin(),
+        new CleanWebpackPlugin({}),
         new HtmlWebpackPlugin({
             template: "./src/index.html",
             filename: "./index.html"
@@ -67,6 +80,10 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: isDevelopment ? '[name].css' : '[name].[hash].css',
             chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css'
-        })
-    ]
+        }),
+        new webpack.HotModuleReplacementPlugin()
+    ],
+    devServer: {
+        historyApiFallback: true
+    }
 };
